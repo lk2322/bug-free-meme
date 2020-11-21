@@ -1,6 +1,6 @@
 import random
 import sys
-
+import ui
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPainter
@@ -8,12 +8,12 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QPushButton
 from PyQt5.uic import loadUi
 
 
-class MainWindow(QMainWindow):
+class MainWindow(ui.Ui_Form, QMainWindow):
     pushButton: QPushButton
 
     def __init__(self):
         super().__init__()
-        loadUi('./UI.ui', self)
+        self.setupUi(self)
 
         self.pushButton.clicked.connect(self.on_click)
 
@@ -23,9 +23,10 @@ class MainWindow(QMainWindow):
         if self.to_draw:
             painter = QPainter()
             painter.begin(self)
-            painter.setBrush(Qt.yellow)
-
+            colors = [Qt.red, Qt.yellow, Qt.black, Qt.blue]
             for i in range(random.randint(1, 5)):
+                painter.setBrush(random.choice(colors))
+
                 radius = random.randint(20, 100)
                 window_size = self.size()
                 x = random.randint(radius, window_size.width() - radius)
